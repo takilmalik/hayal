@@ -1,260 +1,439 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
 }
 
-body {
-  background: #000;
-  color: #fff;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body{
+
+background:#000;
+color:white;
+font-family:Arial;
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+min-height:100vh;
+
 }
 
-#app {
-  width: 100%;
-  max-width: 900px;
-  padding: 20px;
-  background: #0d1117;
-  border-radius: 15px;
-  text-align: center;
-  transition: 0.6s ease;
+/* APP */
+
+#app{
+
+width:100%;
+max-width:900px;
+
+padding:30px;
+
+text-align:center;
+
 }
 
-button {
-  padding: 18px 28px;
-  margin: 15px;
-  border: none;
-  background: #00c6ff;
-  color: black;
-  font-weight: bold;
-  font-size: 18px;
-  border-radius: 10px;
-  cursor: pointer;
-  min-width: 180px;
+/* LOGO */
+
+.logo{
+
+font-size:60px;
+font-weight:bold;
+
+background:linear-gradient(90deg,#00e5ff,#ff00aa);
+
+background-clip:text;
+-webkit-background-clip:text;
+
+color:transparent;
+-webkit-text-fill-color:transparent;
+
+text-shadow:
+0 0 10px #00e5ff,
+0 0 20px #ff00aa;
+
+margin-bottom:10px;
+
 }
 
+.subtitle{
+
+font-size:22px;
+margin-bottom:40px;
+
+}
+
+/* MENU BUTTON */
+
+.menu-btn{
+
+display:block;
+
+width:280px;
+
+margin:15px auto;
+
+padding:18px;
+
+font-size:20px;
+
+border-radius:14px;
+
+background:#111;
+
+border:2px solid #00e5ff;
+
+color:white;
+
+cursor:pointer;
+
+box-shadow:
+0 0 10px #00e5ff;
+
+transition:0.3s;
+
+}
+
+.menu-btn:hover{
+
+transform:scale(1.05);
+
+box-shadow:
+0 0 20px #00e5ff,
+0 0 40px #ff00aa;
+
+}
+
+/* FAZ KARTLARI */
+
+.phase-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(200px,1fr));
+
+gap:25px;
+
+margin-top:40px;
+
+padding:10px;
+
+}
+
+.phase-card{
+
+background:rgba(20,20,20,0.8);
+
+border:2px solid #00e5ff;
+
+border-radius:20px;
+
+padding:25px;
+
+text-align:center;
+
+box-shadow:
+0 0 20px rgba(0,229,255,0.6);
+
+transition:0.3s;
+
+}
+
+.phase-card:hover{
+
+transform:translateY(-5px);
+
+box-shadow:
+0 0 40px rgba(0,229,255,1);
+
+}
+
+.phase-card h2{
+
+margin-bottom:15px;
+
+font-size:24px;
+
+}
+
+.phase-card button{
+
+padding:12px 20px;
+
+border:none;
+
+border-radius:10px;
+
+background:#00e5ff;
+
+cursor:pointer;
+
+font-weight:bold;
+
+}
+
+/* BACK BUTTON */
+
+.back-btn{
+
+position:absolute;
+left:20px;
+top:20px;
+
+padding:10px 16px;
+
+background:#111;
+
+border:2px solid #00e5ff;
+
+color:#00e5ff;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+@media (max-width:768px){
+
+.logo{
+
+font-size:40px;
+
+}
+
+.menu-btn{
+
+width:90%;
+
+font-size:18px;
+
+}
+
+.phase-card{
+
+padding:20px;
+
+}
+
+}
 /* ========================= */
-/* FAZ 1 - KAPI TASARIMI */
+/* FAZ 1 - HAFIZA KAPILARI */
 /* ========================= */
 
-.memory-grid {
-  display: grid;
-  gap: 20px;
-  justify-content: center;
-  margin: 30px 0;
+.memory-grid{
+display:grid;
+gap:20px;
+justify-content:center;
+margin:30px 0;
 }
 
-.memory-cell {
-  width: 110px;
-  height: 170px;
-  background: linear-gradient(to bottom, #4b2e2e, #1a1a1a);
-  border: 5px solid #2c1a1a;
-  border-radius: 6px;
-  position: relative;
-  cursor: pointer;
-  transition: 0.2s ease;
-  box-shadow: inset 0 0 15px #000;
+.memory-cell{
+width:110px;
+height:160px;
+background:#222;
+border:3px solid #00e5ff;
+border-radius:10px;
+cursor:pointer;
+transition:0.2s;
 }
 
-.memory-cell::after {
-  content: "";
-  width: 16px;
-  height: 16px;
-  background: radial-gradient(circle, gold, #a67c00);
-  border-radius: 50%;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 0 6px gold;
+.memory-cell.active{
+background:#00e5ff;
 }
 
-.memory-cell:active {
-  transform: scale(0.96);
+.memory-cell.open{
+background:#444;
 }
 
-.memory-cell.active {
-  background: linear-gradient(to bottom, #00e5ff, #00bcd4);
-  box-shadow: 0 0 30px #00e5ff;
+.memory-cell.wrong{
+background:#8b0000;
 }
-
-.memory-cell.wrong {
-  background: #8b0000;
-  box-shadow: 0 0 20px red;
-}
-
-.memory-cell.open {
-  transform: perspective(400px) rotateY(70deg);
-  transform-origin: left;
-  box-shadow: inset 0 0 20px #000;
-}
-
-.memory-cell.correct {
-  background: linear-gradient(to bottom, #00e5ff, #00bcd4);
-  box-shadow: 0 0 25px #00e5ff;
-}
-
 /* ========================= */
-/* FAZ 2 - MAYIN Tarlası */
+/* FAZ 2 - ZİHİN TARLASI */
 /* ========================= */
 
-.maze-grid {
-  display: grid;
-  margin: 20px auto;
-  max-width: 90vw;
-  touch-action: none;
+.maze-grid{
+display:grid;
+gap:5px;
+margin:20px auto;
+max-width:420px;
 }
 
-.maze-cell {
-  aspect-ratio: 1/1;
-  border: 2px solid #c0c0c0;
-  background: linear-gradient(145deg,#5a5a5a,#3a3a3a);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:30px;
-  color:#00e5ff;
-  border-radius:6px;
-  box-shadow:
-    inset 0 0 6px #000,
-    0 2px 6px rgba(0,0,0,0.7);
+.maze-cell{
+width:50px;
+height:50px;
+background:#333;
+border:1px solid #999;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+cursor:pointer;
 }
 
-.maze-cell:not(.open) {
-  background: linear-gradient(145deg,#6a6a6a,#404040);
-  border: 2px solid silver;
+.maze-cell.open{
+background:#111;
+border:1px solid #00e5ff;
 }
 
-.maze-cell.open {
-  background:#111;
-  border:2px solid #00e5ff;
-  box-shadow:
-    0 0 12px #00e5ff,
-    inset 0 0 8px #000;
+.maze-cell.mine{
+background:#8b0000;
 }
-
-.maze-cell.mine {
-  background:#8b0000;
-  color:white;
-  box-shadow:0 0 15px red;
-}
-
 /* ========================= */
 /* FAZ 3 - STACK */
 /* ========================= */
 
 .stack-game{
-
 width:240px;
 height:400px;
-
 margin:auto;
-
 position:relative;
-
 background:#111;
-
 border:2px solid #666;
-
 overflow:hidden;
-
 }
-
-/* kule */
 
 .tower{
-
 position:absolute;
-
 bottom:0;
-
 width:100%;
-
 }
-
-/* yerleşen bloklar */
 
 .stack-block{
-
 height:20px;
-
-background:linear-gradient(
-90deg,
-#00e5ff,
-#0077ff
-);
-
-box-shadow:0 0 8px #00e5ff;
-
+background:#00e5ff;
 position:absolute;
-
 }
-
-/* hareket eden blok */
 
 .moving-block{
-
 position:absolute;
-
 top:0;
-
 height:20px;
-
-background:linear-gradient(
-90deg,
-#ffaa00,
-#ff6600
-);
-
-box-shadow:0 0 10px #ff6600;
-
+background:#ff6600;
 }
-/* PARTICLE ARKA PLAN */
+/* ===== FAZ 1 KAPI ===== */
 
-#particles{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
+.memory-cell{
+width:110px;
+height:170px;
+background:linear-gradient(to bottom,#4b2e2e,#1a1a1a);
+border:5px solid #2c1a1a;
+border-radius:6px;
+position:relative;
+cursor:pointer;
+transition:0.2s ease;
+box-shadow: inset 0 0 15px #000;
 }
 
-.particle{
-
-position:absolute;
-width:3px;
-height:3px;
-
-background:#00e5ff;
-
+.memory-cell::after{
+content:"";
+width:16px;
+height:16px;
+background: radial-gradient(circle,gold,#a67c00);
 border-radius:50%;
-
-opacity:0.7;
-
-animation:float 20s linear infinite;
-
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+box-shadow:0 0 6px gold;
 }
 
-@keyframes float{
-
-0%{
-transform:translateY(0);
-opacity:0;
+.memory-cell:active{
+transform:scale(0.96);
 }
 
-50%{
-opacity:1;
+.memory-cell.active{
+background:linear-gradient(to bottom,#00e5ff,#00bcd4);
+box-shadow:0 0 30px #00e5ff;
 }
 
-100%{
-transform:translateY(-1000px);
-opacity:0;
+.memory-cell.wrong{
+background:#8b0000;
+box-shadow:0 0 20px red;
 }
 
+.memory-cell.open{
+transform:perspective(400px) rotateY(70deg);
+transform-origin:left;
+box-shadow: inset 0 0 20px #000;
+}
+
+/* ===== FAZ 2 MAYIN TARLASI ===== */
+
+.maze-grid{
+display:grid;
+gap:6px;
+margin:20px auto;
+max-width:420px;
+}
+
+.maze-cell{
+width:50px;
+height:50px;
+
+background:linear-gradient(145deg,#5a5a5a,#3a3a3a);
+
+border:2px solid silver;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-weight:bold;
+font-size:22px;
+
+color:#00e5ff;
+
+border-radius:6px;
+
+cursor:pointer;
+
+box-shadow:
+inset 0 0 6px #000,
+0 2px 6px rgba(0,0,0,0.7);
+}
+
+.maze-cell.open{
+background:#111;
+border:2px solid #00e5ff;
+box-shadow:
+0 0 12px #00e5ff,
+inset 0 0 8px #000;
+}
+
+.maze-cell.mine{
+background:#8b0000;
+color:white;
+box-shadow:0 0 15px red;
+}
+/* ===== FAZ 3 STACK ===== */
+
+.stack-game{
+width:240px;
+height:400px;
+margin:auto;
+position:relative;
+background:#111;
+border:2px solid #666;
+overflow:hidden;
+}
+
+.tower{
+position:absolute;
+bottom:0;
+width:100%;
+}
+
+.stack-block{
+height:20px;
+background:linear-gradient(90deg,#00e5ff,#0077ff);
+box-shadow:0 0 8px #00e5ff;
+position:absolute;
+}
+
+.moving-block{
+position:absolute;
+top:0;
+height:20px;
+background:linear-gradient(90deg,#ffaa00,#ff6600);
+box-shadow:0 0 10px #ff6600;
 }

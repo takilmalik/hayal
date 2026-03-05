@@ -1,63 +1,75 @@
-const Game = {
+const Game={
 
-  state: null,
-  score: 0,
-  currentStage: 1,
-  _timer: null,
+state:null,
 
-  start() {
-    this.goTo("INTRO");
-  },
+score:0,
 
-  goTo(newState) {
+currentStage:1,
 
-    if (this._timer) {
-      clearInterval(this._timer);
-      this._timer = null;
-    }
+start(){
 
-    this.state = newState;
-    this.render();
-  },
+this.goTo("INTRO");
 
-  addScore(amount) {
-    this.score += amount;
-  },
+createParticles();
 
-  reset() {
-    this.score = 0;
-    this.currentStage = 1;
-    this.goTo("MENU");
-  },
+},
 
-  render() {
-    States[this.state].render();
-  }
+goTo(newState){
+
+this.state=newState;
+
+this.render();
+
+},
+
+addScore(amount){
+
+this.score+=amount;
+
+},
+
+reset(){
+
+this.score=0;
+
+this.currentStage=1;
+
+this.goTo("MENU");
+
+},
+
+render(){
+
+States[this.state].render();
+
+}
 
 };
 
+Game.start();
+
+
 function createParticles(){
 
-const container=document.createElement("div");
-container.id="particles";
-
-document.body.appendChild(container);
+const container=document.getElementById("particles");
 
 for(let i=0;i<60;i++){
 
 const p=document.createElement("div");
-p.className="particle";
+
+p.style.position="fixed";
+p.style.width="3px";
+p.style.height="3px";
+
+p.style.background="#00e5ff";
 
 p.style.left=Math.random()*100+"%";
 p.style.top=Math.random()*100+"%";
 
-p.style.animationDuration=15+Math.random()*10+"s";
+p.style.opacity="0.5";
 
 container.appendChild(p);
 
 }
 
 }
-
-createParticles();
-Game.start();

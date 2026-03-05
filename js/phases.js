@@ -48,6 +48,12 @@ sequenceLength = 6;
 }
 
 app.innerHTML = `
+
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
+
 <h1>ERONEX</h1>
 <h2>Faz 1 - Seviye ${Game.currentStage}</h2>
 
