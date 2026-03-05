@@ -19,6 +19,10 @@ menu() {
     <button onclick="Game.goTo('PHASE3')">
       Faz 3 – Stack
     </button>
+    
+    <button onclick="Game.goTo('PHASE4')">
+    Faz 4 – XOX
+    </button>
   `;
 
 },
@@ -60,7 +64,7 @@ onclick="Game.goTo('PHASES')">
 <h2>Faz 1 - Seviye ${Game.currentStage}</h2>
 
 <div class="memory-grid"
-style="grid-template-columns: repeat(${columns}, minmax(80px,1fr));">
+style="grid-template-columns: repeat(${columns}, auto);">
 ${Array.from({length: doorCount}, (_,i)=>
 `<div class="memory-cell" data-id="${i}"></div>`
 ).join("")}
@@ -210,7 +214,7 @@ phase2(){
 const app=document.getElementById("app");
 
 const size=7;
-const mineCount=6;
+const mineCount=3;
 
 let lives=3;
 
@@ -325,6 +329,10 @@ grid[y][x].number=countMines(x,y);
 function render(){
 
 app.innerHTML=`
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
 <h1>ERONEX</h1>
 <h2>Faz 2 - Zihin Tarlası</h2>
 <p>❤️ ${lives}</p>
@@ -450,6 +458,10 @@ let speed=3;
 let score=0;
 
 app.innerHTML=`
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
 <h1>ERONEX</h1>
 <h2>Faz 3 - Stack</h2>
 
@@ -482,7 +494,7 @@ requestAnimationFrame(move);
 
 move();
 
-app.onclick=()=>{
+document.querySelector(".stack-game").onclick=()=>{
 
 const last=stack[stack.length-1];
 
@@ -501,7 +513,11 @@ Math.max(currentX,last.x);
 if(overlap<=0){
 
 Game.lastScore = score;
-Game.goTo("RESULT");
+
+setTimeout(()=>{
+Game.goTo("PHASE3");
+},600);
+
 return;
 
 }
@@ -533,6 +549,208 @@ newBlock.style.bottom = stack.length * 20 + "px";
 tower.appendChild(newBlock);
 
 block.style.width=width+"px";
+
+}
+
+},
+
+
+/* ========================= */
+/* FAZ 4 - XOX */
+/* ========================= */
+
+phase4(){
+
+const app=document.getElementById("app");
+
+let board=["","","","","","","","",""];
+let player="X";
+let mode=null;
+
+/* MOD SEÇME */
+
+app.innerHTML=`
+
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
+
+<h1>ERONEX</h1>
+<h2>Faz 4 - XOX</h2>
+
+<button class="menu-btn" id="pvp">👥 2 Kişi</button>
+<button class="menu-btn" id="ai">🤖 AI'ya Karşı</button>
+
+`;
+
+document.getElementById("pvp").onclick=()=>{
+startGame("pvp");
+};
+
+document.getElementById("ai").onclick=()=>{
+startGame("ai");
+};
+
+function startGame(selectedMode){
+
+mode=selectedMode;
+
+app.innerHTML=`
+
+<h1>ERONEX</h1>
+<h2>XOX</h2>
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
+
+<div class="xox-grid"></div>
+
+<p id="status">Sıra: X</p>
+
+`;
+
+const grid=document.querySelector(".xox-grid");
+
+board=["","","","","","","","",""];
+
+board.forEach((cell,i)=>{
+
+const div=document.createElement("div");
+div.className="xox-cell";
+
+div.onclick=()=>move(i,div);
+
+grid.appendChild(div);
+
+});
+
+}
+
+function move(i,div){
+
+if(board[i]!=="") return;
+
+board[i]=player;
+div.innerText=player;
+
+if(checkWin()){
+
+document.getElementById("status").innerText=player+" kazandı";
+
+setTimeout(()=>{
+Game.goTo("MENU");
+},1200);
+
+return;
+
+}
+
+if(board.every(c=>c!=="")){
+
+document.getElementById("status").innerText="Berabere";
+
+setTimeout(()=>{
+Game.goTo("PHASES");
+},1200);
+
+return;
+
+}
+
+player=player==="X"?"O":"X";
+
+document.getElementById("status").innerText="Sıra: "+player;
+
+/* AI */
+
+if(mode==="ai" && player==="O"){
+setTimeout(aiMove,500);
+}
+
+}
+
+function aiMove(){
+
+const cells=document.querySelectorAll(".xox-cell");
+
+/* kazanma hamlesi */
+
+for(let i=0;i<9;i++){
+
+if(board[i]===""){
+
+board[i]="O";
+
+if(checkWin()){
+
+board[i]="";
+cells[i].click();
+return;
+
+}
+
+board[i]="";
+
+}
+
+}
+
+/* engelleme hamlesi */
+
+for(let i=0;i<9;i++){
+
+if(board[i]===""){
+
+board[i]="X";
+
+if(checkWin()){
+
+board[i]="";
+cells[i].click();
+return;
+
+}
+
+board[i]="";
+
+}
+
+}
+
+/* rastgele hamle */
+
+let empty=board
+.map((v,i)=>v===""?i:null)
+.filter(v=>v!==null);
+
+if(empty.length===0) return;
+
+let moveIndex=empty[Math.floor(Math.random()*empty.length)];
+
+cells[moveIndex].click();
+
+}
+
+function checkWin(){
+
+const win=[
+
+[0,1,2],
+[3,4,5],
+[6,7,8],
+[0,3,6],
+[1,4,7],
+[2,5,8],
+[0,4,8],
+[2,4,6]
+
+];
+
+return win.some(combo=>
+combo.every(i=>board[i]===player)
+);
 
 }
 

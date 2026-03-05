@@ -43,3 +43,25 @@ document.getElementById("app").appendChild(btn);
 }
 
 };
+function startPhase(phase){
+
+const overlay=document.createElement("div");
+overlay.className="brain-overlay";
+
+overlay.innerHTML=`
+<div class="brain">
+🧠
+<p>Zihin hazırlanıyor...</p>
+</div>
+`;
+
+document.body.appendChild(overlay);
+
+setTimeout(()=>{
+
+overlay.remove();
+Game.goTo(phase);
+
+},1200);
+
+}

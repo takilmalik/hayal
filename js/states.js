@@ -9,32 +9,19 @@ const app=document.getElementById("app");
 
 app.innerHTML=`
 <div class="logo">ERONEX</div>
+<div id="intro-brain">🧠</div>
 <div id="intro-text"></div>
 `;
 
 const lines=[
 
-"...",
-
 "Sinyal bulundu.",
-
-"...",
 
 "Zihin bağlantısı kuruluyor.",
 
-"...",
-
 "Hoş geldin.",
 
-"...",
-
-"...",
-
 "Kahraman Çorumlu.",
-
-"...",
-
-"",
 
 "Zihninden kaçamazsın."
 
@@ -69,6 +56,20 @@ p.className="intro-text";
 p.innerText=lines[i];
 
 document.getElementById("intro-text").appendChild(p);
+
+/* kahraman çorumlu sonrası credit */
+
+if(lines[i]==="Kahraman Çorumlu."){
+
+const credit=document.createElement("div");
+
+credit.className="eer-credit";
+
+credit.innerText="by eer";
+
+document.getElementById("intro-text").appendChild(credit);
+
+}
 
 i++;
 
@@ -157,10 +158,10 @@ onclick="Game.goTo('MENU')">
 
 <h2>🚪 Faz 1</h2>
 
-<p>Hafıza Kapıları</p>
+<p>Anektarlar Nerde</p>
 
 <button class="menu-btn"
-onclick="Game.goTo('PHASE1')">
+onclick="startPhase('PHASE1')">
 
 Başla
 
@@ -172,10 +173,10 @@ Başla
 
 <h2>💣 Faz 2</h2>
 
-<p>Zihin Tarlası</p>
+<p>Leblebi Tarlası</p>
 
 <button class="menu-btn"
-onclick="Game.goTo('PHASE2')">
+onclick="startPhase('PHASE2')">
 
 Başla
 
@@ -187,11 +188,25 @@ Başla
 
 <h2>🧱 Faz 3</h2>
 
-<p>Stack</p>
+<p>Saat Kulesi</p>
 
 <button class="menu-btn"
 onclick="restartPhase3()">
 Tekrar Oyna
+</button>
+
+</div>
+<div class="phase-card">
+
+<h2>❌⭕ Faz 4</h2>
+
+<p>X O Kapışması</p>
+
+<button class="menu-btn"
+onclick="startPhase('PHASE4')">
+
+Başla
+
 </button>
 
 </div>
@@ -224,6 +239,12 @@ Phases.phase2();
 PHASE3:{
 render(){
 Phases.phase3();
+}
+},
+
+PHASE4:{
+render(){
+Phases.phase4();
 }
 },
 
@@ -292,3 +313,12 @@ Menü
 }
 
 };
+function restartPhase3(){
+
+Game.score = 0;
+
+Game.lastScore = 0;
+
+Game.goTo("PHASE3");
+
+}
