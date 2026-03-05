@@ -313,15 +313,22 @@ background:#ff6600;
 /* ===== FAZ 1 KAPI ===== */
 
 .memory-cell{
-width:110px;
-height:170px;
+
+width:clamp(90px, 22vw, 120px);
+height:clamp(140px, 30vw, 180px);
+
 background:linear-gradient(to bottom,#4b2e2e,#1a1a1a);
 border:5px solid #2c1a1a;
 border-radius:6px;
+
 position:relative;
+
 cursor:pointer;
+
 transition:0.2s ease;
+
 box-shadow: inset 0 0 15px #000;
+
 }
 
 .memory-cell::after{

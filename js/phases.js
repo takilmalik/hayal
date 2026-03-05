@@ -27,7 +27,7 @@ menu() {
 /* FAZ 1 */
 /* ========================= */
 
-phase1() {
+phase1(){
 
 const app = document.getElementById("app");
 
@@ -35,15 +35,17 @@ let doorCount = 4;
 let columns = 2;
 let sequenceLength = 3;
 
+/* SEVİYE SİSTEMİ */
+
 if (Game.currentStage === 2) {
 doorCount = 6;
 columns = 3;
 sequenceLength = 4;
 }
 
-if (Game.currentStage === 3) {
-doorCount = 8;
-columns = 4;
+if (Game.currentStage >= 3) {
+doorCount = 9;
+columns = 3;
 sequenceLength = 6;
 }
 
@@ -58,7 +60,7 @@ onclick="Game.goTo('PHASES')">
 <h2>Faz 1 - Seviye ${Game.currentStage}</h2>
 
 <div class="memory-grid"
-style="grid-template-columns: repeat(${columns}, 110px);">
+style="grid-template-columns: repeat(${columns}, minmax(80px,1fr));">
 ${Array.from({length: doorCount}, (_,i)=>
 `<div class="memory-cell" data-id="${i}"></div>`
 ).join("")}
@@ -81,6 +83,8 @@ Math.floor(Math.random() * doorCount)
 
 let index = 0;
 
+/* SEQUENCE GÖSTERME */
+
 function showSequence(){
 
 if(index >= sequence.length){
@@ -90,15 +94,22 @@ return;
 }
 
 const cell = cells[sequence[index]];
+
 cell.classList.add("active");
 
 setTimeout(()=>{
+
 cell.classList.remove("active");
+
 index++;
+
 setTimeout(showSequence,350);
+
 },600);
 
 }
+
+/* KAPI TIKLAMA */
 
 cells.forEach(cell=>{
 
@@ -107,6 +118,8 @@ cell.onclick = ()=>{
 if(showing) return;
 
 const id = parseInt(cell.dataset.id);
+
+/* KAPI AÇILMA EFEKTİ */
 
 cell.classList.add("open");
 cell.classList.add("active");
@@ -118,9 +131,17 @@ cell.classList.remove("active");
 
 userInput.push(id);
 
+/* YANLIŞ KAPI */
+
 if(id !== sequence[userInput.length-1]){
 
 cell.classList.add("wrong");
+
+/* MOBİL TİTREŞİM */
+
+if(navigator.vibrate){
+navigator.vibrate(200);
+}
 
 setTimeout(()=>{
 
@@ -136,11 +157,15 @@ return;
 
 }
 
+/* SEVİYE TAMAMLANDI */
+
 if(userInput.length === sequence.length){
 
 Game.addScore(20*Game.currentStage);
 
-app.style.transform="scale(0.8)";
+/* EKRAN GEÇİŞ ANİMASYONU */
+
+app.style.transform="scale(0.85)";
 app.style.opacity="0";
 
 setTimeout(()=>{
@@ -148,15 +173,23 @@ setTimeout(()=>{
 app.style.transform="scale(1)";
 app.style.opacity="1";
 
-if(Game.currentStage < 3){
+/* 5 SEVİYE SİSTEMİ */
+
+if(Game.currentStage < 5){
+
 Game.currentStage++;
+
 Game.goTo("PHASE1");
+
 }else{
+
 Game.currentStage = 1;
+
 Game.goTo("PHASE2");
+
 }
 
-},800);
+},700);
 
 }
 
@@ -405,6 +438,7 @@ render();
 /* ========================= */
 
 phase3(){
+  
 
 const app=document.getElementById("app");
 

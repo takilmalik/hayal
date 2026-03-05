@@ -190,10 +190,8 @@ Başla
 <p>Stack</p>
 
 <button class="menu-btn"
-onclick="Game.goTo('PHASE3')">
-
-Başla
-
+onclick="restartPhase3()">
+Tekrar Oyna
 </button>
 
 </div>
