@@ -16,13 +16,9 @@ app.innerHTML=`
 const lines=[
 
 "Sinyal bulundu.",
-
 "Zihin bağlantısı kuruluyor.",
-
 "Hoş geldin.",
-
 "Kahraman Çorumlu.",
-
 "Zihninden kaçamazsın."
 
 ];
@@ -56,8 +52,6 @@ p.className="intro-text";
 p.innerText=lines[i];
 
 document.getElementById("intro-text").appendChild(p);
-
-/* kahraman çorumlu sonrası credit */
 
 if(lines[i]==="Kahraman Çorumlu."){
 
@@ -192,10 +186,13 @@ Başla
 
 <button class="menu-btn"
 onclick="restartPhase3()">
+
 Tekrar Oyna
+
 </button>
 
 </div>
+
 <div class="phase-card">
 
 <h2>❌⭕ Faz 4</h2>
@@ -204,6 +201,21 @@ Tekrar Oyna
 
 <button class="menu-btn"
 onclick="startPhase('PHASE4')">
+
+Başla
+
+</button>
+
+</div>
+
+<div class="phase-card">
+
+<h2>🧠 Faz 5</h2>
+
+<p>Algı Testi</p>
+
+<button class="menu-btn"
+onclick="startPhase('PHASE5')">
 
 Başla
 
@@ -242,11 +254,23 @@ Phases.phase3();
 }
 },
 
+
+
 PHASE4:{
 render(){
 Phases.phase4();
 }
 },
+
+
+
+PHASE5:{
+render(){
+Phases.phase5();
+}
+},
+
+
 
 GAMEOVER:{
 render(){
@@ -279,6 +303,8 @@ Menü
 
 }
 },
+
+
 
 RESULT:{
 render(){
@@ -313,10 +339,12 @@ Menü
 }
 
 };
+
+
+
 function restartPhase3(){
 
 Game.score = 0;
-
 Game.lastScore = 0;
 
 Game.goTo("PHASE3");

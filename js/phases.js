@@ -35,22 +35,44 @@ phase1(){
 
 const app = document.getElementById("app");
 
-let doorCount = 4;
-let columns = 2;
-let sequenceLength = 3;
+let doorCount;
+let columns;
+let sequenceLength;
 
-/* SEVİYE SİSTEMİ */
+/* SEVİYE ZORLUK SİSTEMİ */
 
-if (Game.currentStage === 2) {
-doorCount = 6;
-columns = 3;
-sequenceLength = 4;
+if(Game.currentStage === 1){
+
+doorCount = 4;
+columns = 2;
+sequenceLength = 3;
+
 }
 
-if (Game.currentStage >= 3) {
+else if(Game.currentStage === 2){
+
+doorCount = 6;
+columns = 3;
+sequenceLength = 3;
+
+}
+
+else{
+
 doorCount = 9;
 columns = 3;
-sequenceLength = 6;
+
+if(Game.currentStage <= 3) sequenceLength = 3;
+else if(Game.currentStage <= 5) sequenceLength = 4;
+else if(Game.currentStage <= 7) sequenceLength = 5;
+else if(Game.currentStage <= 9) sequenceLength = 6;
+else if(Game.currentStage <= 11) sequenceLength = 7;
+else if(Game.currentStage <= 13) sequenceLength = 8;
+else if(Game.currentStage <= 15) sequenceLength = 9;
+else if(Game.currentStage <= 17) sequenceLength = 10;
+else if(Game.currentStage <= 18) sequenceLength = 11;
+else sequenceLength = 12;
+
 }
 
 app.innerHTML = `
@@ -149,7 +171,7 @@ navigator.vibrate(200);
 
 setTimeout(()=>{
 
-if(Game.currentStage>1){
+if(Game.currentStage > 1){
 Game.currentStage--;
 }
 
@@ -179,7 +201,7 @@ app.style.opacity="1";
 
 /* 5 SEVİYE SİSTEMİ */
 
-if(Game.currentStage < 5){
+if(Game.currentStage < 19){
 
 Game.currentStage++;
 
@@ -289,12 +311,16 @@ ny<size
 
 const neighbor=grid[ny][nx];
 
+/* sadece kapalı ve mayın olmayan kare */
+
 if(!neighbor.open && !neighbor.mine){
 
 neighbor.open=true;
 
-if(neighbor.number===0){
-openNeighbors(nx,ny);
+/* %50 ihtimalle aç */
+
+if(Math.random() < 0.5){
+neighbor.open=true;
 }
 
 }
@@ -754,6 +780,130 @@ combo.every(i=>board[i]===player)
 
 }
 
+}, /* <-- İŞTE HATA BURADAYDI! BURAYI DÜZELTTİM */
+
+/* ========================= */
+/* FAZ 5 - ALGI TESTİ */
+/* ========================= */
+
+phase5(){
+ Game.score = 0;
+
+const app=document.getElementById("app");
+
+const words=["KIRMIZI","MAVI","YESIL","SARI"];
+
+const colors={
+KIRMIZI:"red",
+MAVI:"blue",
+YESIL:"green",
+SARI:"yellow"
+};
+
+let score=0;
+let time=3;
+let timer;
+let bestScore = localStorage.getItem("eronexBest") || 0;
+function startTimer(){
+
+time=3;
+
+const timerText=document.getElementById("timer");
+
+timerText.innerText=time;
+
+timer=setInterval(()=>{
+
+time--;
+
+timerText.innerText=time;
+
+if(time<=0){
+
+clearInterval(timer);
+Game.goTo("GAMEOVER");
+
+}
+
+},1000);
+
+}
+
+function nextRound(){
+  clearInterval(timer);
+
+const word=words[Math.floor(Math.random()*words.length)];
+const colorKey=words[Math.floor(Math.random()*words.length)];
+const color=colors[colorKey];
+
+app.innerHTML=`
+
+<button class="back-btn"
+onclick="Game.goTo('PHASES')">
+← Menü
+</button>
+
+<h1>ERONEX</h1>
+<h2>Faz 5 - Algı Testi</h2>
+
+<p>Kelimeyi değil <b>RENKİ</b> seç!</p>
+
+<div style="
+font-size:60px;
+margin:40px;
+color:${color};
+font-weight:bold;
+">
+${word}
+</div>
+
+<div id="buttons"></div>
+<p>⏱ Süre: <span id="timer">3</span></p>
+<p>Skor: ${Game.score}</p>
+<p>🏆 Rekor: ${bestScore}</p>
+
+`;
+
+const btnArea=document.getElementById("buttons");
+
+words.forEach(w=>{
+
+const btn=document.createElement("button");
+
+btn.className="menu-btn";
+
+btn.innerText=w;
+
+btn.onclick=()=>{
+
+if(w===colorKey){
+
+Game.score += 10;
+if(Game.score > bestScore){
+
+bestScore = Game.score;
+
+localStorage.setItem("eronexBest", bestScore);
+
+}
+nextRound();
+
+}else{
+
+Game.goTo("GAMEOVER");
+
 }
 
 };
+
+btnArea.appendChild(btn);
+
+});
+startTimer();
+
+}
+
+nextRound();
+
+} /* <-- BURAYI DA DÜZELTTİM */
+}; /* <-- VE EN SONU DA BURASI */
