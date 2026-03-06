@@ -802,11 +802,11 @@ SARI:"yellow"
 
 let score=0;
 let time=3;
+let round=0;
 let timer;
 let bestScore = localStorage.getItem("eronexBest") || 0;
 function startTimer(){
 
-time=3;
 
 const timerText=document.getElementById("timer");
 
@@ -831,6 +831,25 @@ Game.goTo("GAMEOVER");
 
 function nextRound(){
   clearInterval(timer);
+ round++;
+
+/* ZORLUK SİSTEMİ */
+
+if(round > 40){
+time = 0.8;
+}
+else if(round > 30){
+time = 1;
+}
+else if(round > 20){
+time = 1.5;
+}
+else if(round > 10){
+time = 2;
+}
+else{
+time = 3;
+}
 
 const word=words[Math.floor(Math.random()*words.length)];
 const colorKey=words[Math.floor(Math.random()*words.length)];
@@ -858,7 +877,7 @@ ${word}
 </div>
 
 <div id="buttons"></div>
-<p>⏱ Süre: <span id="timer">3</span></p>
+<p>⏱ Süre: <span id="timer">${time}</span></p>
 <p>Skor: ${Game.score}</p>
 <p>🏆 Rekor: ${bestScore}</p>
 
